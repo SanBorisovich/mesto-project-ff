@@ -8,7 +8,7 @@ const placesList = document.querySelector(".places__list");
 
 // @todo: Функция создания карточки
 
-function createCard(element) {
+function createCard(element, remove) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   
   cardElement.querySelector(".card__title").textContent = element.name;
@@ -18,7 +18,7 @@ function createCard(element) {
   const deleteButton = cardElement.querySelector(".card__delete-button");
 
   deleteButton.addEventListener('click', () => {
-    removeCard(cardElement);
+    remove(cardElement);
   });
 
   return cardElement;
@@ -34,7 +34,7 @@ function removeCard(item) {
 
 function renderCards(cards) {
   cards.forEach((item) => {
-    placesList.append(createCard(item));
+    placesList.append(createCard(item, removeCard));
   });
 }
 
