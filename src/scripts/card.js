@@ -2,13 +2,9 @@
 
 const cardTemplate = document.querySelector('#card-template').content;
 
-// @todo: DOM узлы
-
-const placesList = document.querySelector('.places__list');
-
 // @todo: Функция создания карточки
 
-function createCard(element, remove, like, openPopup) {
+function createCard(element, removeCard, likeCard, openPopup) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   
   cardElement.querySelector('.card__title').textContent = element.name;
@@ -20,12 +16,11 @@ function createCard(element, remove, like, openPopup) {
   const image = cardElement.querySelector('.card__image');
 
   likeButton.addEventListener('click', () => {
-    like(cardElement);
+    likeCard(cardElement);
   });
   
-
   deleteButton.addEventListener('click', () => {
-    remove(cardElement);
+    removeCard(cardElement);
   });
 
   image.addEventListener('click', () => {
@@ -53,12 +48,4 @@ function removeCard(item) {
   item.remove();
 }
 
-// @todo: Вывести карточки на страницу
-
-function renderCards(cards, openPopup) {
-  cards.forEach((item) => {
-    placesList.append(createCard(item, removeCard, likeCard, openPopup));
-  });
-}
-
-export { renderCards , createCard , removeCard , likeCard};
+export { createCard , removeCard , likeCard};

@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { renderCards , createCard , removeCard , likeCard} from "./card.js";
+import { createCard , removeCard , likeCard} from "./card.js";
 import { initialCards } from "./cards";
 import { openPopup , closePopup } from "./modal.js";
 
@@ -16,7 +16,6 @@ const profileForm = popupProfileEdit.querySelector(".popup__form");
 const nameInput = profileForm.querySelector(".popup__input_type_name");
 const jobInput = profileForm.querySelector(".popup__input_type_description");
 
-
 //Попап "Добавление карточки"
 const profileAddButton = document.querySelector(".profile__add-button");
 const popupAddNewCard = document.querySelector(".popup_type_new-card");
@@ -29,6 +28,12 @@ const imagePopup = document.querySelector('.popup_type_image');
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
+//Слушатель для кнопки закрытия попапа
+function setupPopupCloseListener(modalWindow) {
+    const popupCloseButton = modalWindow.querySelector('.popup__close');
+    popupCloseButton.addEventListener('click', () => closePopup(modalWindow));
+}
+
 //Добавление плавности
 document.querySelectorAll('.popup').forEach(popup => {
     popup.classList.add('popup_is-animated');
@@ -36,41 +41,46 @@ document.querySelectorAll('.popup').forEach(popup => {
 
 function openImagePopup(evt) {
     openPopup(imagePopup);
+    setupPopupCloseListener(imagePopup);
     popupImage.src = evt.link;
     popupImage.alt = evt.name;
     popupCaption.textContent = evt.name;
-
 }
 
 // Вывод карточек на страницу
+function renderCards(cards, openPopup) {
+    cards.forEach((item) => {
+      placesList.append(createCard(item, removeCard, likeCard, openPopup));
+    });
+  }
 
 renderCards(initialCards, openImagePopup);
 
 //открытие попапов
-
 profileEditButton.addEventListener("click", () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupProfileEdit);
+    setupPopupCloseListener(popupProfileEdit);
 })
 
 profileAddButton.addEventListener("click", () => { 
-    openPopup(popupAddNewCard); 
+    addNewCardForm.reset();
+    openPopup(popupAddNewCard);
+    setupPopupCloseListener(popupAddNewCard);
 });
 
 // Обработчик формы ред.проф.
-
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     profileTitle.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
-    closePopup();
+    closePopup(popupProfileEdit);
 }
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 // Обработчик формы добавления карточки 
-
 function handleNewCardForm (evt) {
     evt.preventDefault();
     const newCard = {};
@@ -78,9 +88,7 @@ function handleNewCardForm (evt) {
     newCard.link = cardLinkInput.value;
 
     placesList.prepend(createCard(newCard, removeCard, likeCard, openImagePopup));
-    closePopup();
-    addNewCardForm.reset();
-    
+    closePopup(popupAddNewCard);
 }
 
 addNewCardForm.addEventListener('submit', handleNewCardForm);
