@@ -34,6 +34,10 @@ function setupPopupCloseListener(modalWindow) {
     popupCloseButton.addEventListener('click', () => closePopup(modalWindow));
 }
 
+document.querySelectorAll('.popup').forEach(popup => {
+    setupPopupCloseListener(popup)
+})
+
 //Добавление плавности
 document.querySelectorAll('.popup').forEach(popup => {
     popup.classList.add('popup_is-animated');
@@ -41,7 +45,6 @@ document.querySelectorAll('.popup').forEach(popup => {
 
 function openImagePopup(evt) {
     openPopup(imagePopup);
-    setupPopupCloseListener(imagePopup);
     popupImage.src = evt.link;
     popupImage.alt = evt.name;
     popupCaption.textContent = evt.name;
@@ -61,13 +64,11 @@ profileEditButton.addEventListener("click", () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupProfileEdit);
-    setupPopupCloseListener(popupProfileEdit);
 })
 
 profileAddButton.addEventListener("click", () => { 
     addNewCardForm.reset();
     openPopup(popupAddNewCard);
-    setupPopupCloseListener(popupAddNewCard);
 });
 
 // Обработчик формы ред.проф.
