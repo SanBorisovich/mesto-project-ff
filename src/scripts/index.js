@@ -37,35 +37,6 @@ const imagePopup = document.querySelector('.popup_type_image');
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
 
-//Слушатель для кнопки закрытия попапа
-function setupPopupCloseListener(modalWindow) {
-    const popupCloseButton = modalWindow.querySelector('.popup__close');
-    popupCloseButton.addEventListener('click', () => closePopup(modalWindow));
-}
-
-document.querySelectorAll('.popup').forEach(popup => {
-    setupPopupCloseListener(popup)
-})
-
-//Добавление плавности
-document.querySelectorAll('.popup').forEach(popup => {
-    popup.classList.add('popup_is-animated');
-});
-
-function openImagePopup(evt) {
-    openPopup(imagePopup);
-    popupImage.src = evt.link;
-    popupImage.alt = evt.name;
-    popupCaption.textContent = evt.name;
-}
-
-// Вывод карточек на страницу
-function renderCards(cards, openPopup) {
-    cards.forEach((item) => {
-      placesList.append(createCard(item, userId, removeCard, likeCard, openPopup));
-    });
-}
-
 // Получение данных пользователя и карточек с сервера
 Promise.all([getUserData(), getInitialCards()])
     .then(([userData, initialCards]) => {
@@ -78,20 +49,50 @@ Promise.all([getUserData(), getInitialCards()])
     })
     .catch((err) => {
         console.log(`Ошибка: ${err}`);
+});
+
+// Вывод карточек на страницу
+function renderCards(cards, openPopup) {
+    cards.forEach((item) => {
+      placesList.append(createCard(item, userId, removeCard, likeCard, openPopup));
     });
+};
+
+//Слушатель для кнопки закрытия попапа
+function setupPopupCloseListener(modalWindow) {
+    const popupCloseButton = modalWindow.querySelector('.popup__close');
+    popupCloseButton.addEventListener('click', () => closePopup(modalWindow));
+};
+
+document.querySelectorAll('.popup').forEach(popup => {
+    setupPopupCloseListener(popup)
+});
+
+//Добавление плавности
+document.querySelectorAll('.popup').forEach(popup => {
+    popup.classList.add('popup_is-animated');
+});
+
+//Функция открытия попапа изображения
+function openImagePopup(evt) {
+    openPopup(imagePopup);
+    popupImage.src = evt.link;
+    popupImage.alt = evt.name;
+    popupCaption.textContent = evt.name;
+};
 
 //открытие попапов
 profileAvatar.addEventListener("click", () => {
     openPopup(popupProfileAvatar);
     clearValidation(popupProfileAvatar, validationSettings);
-})
+});
 
 profileEditButton.addEventListener("click", () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupProfileEdit);
     clearValidation(popupProfileEdit, validationSettings);
-})
+});
 
 profileAddButton.addEventListener("click", () => { 
     addNewCardForm.reset();
