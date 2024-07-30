@@ -88,10 +88,10 @@ profileAvatar.addEventListener("click", () => {
 });
 
 profileEditButton.addEventListener("click", () => {
+    clearValidation(popupProfileEdit, validationSettings);
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
     openPopup(popupProfileEdit);
-    clearValidation(popupProfileEdit, validationSettings);
 });
 
 profileAddButton.addEventListener("click", () => { 

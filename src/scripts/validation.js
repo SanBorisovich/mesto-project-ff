@@ -18,8 +18,8 @@ const showInputError = (formElement, inputElement, errorMessage, validationSetti
 //Функция, скрывающая элемент ошибки
 const hideInputError = (formElement, inputElement) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove("popup__input_type_error");
-    errorElement.classList.remove("popup__error_visible");
+    inputElement.classList.remove(validationSettings.inputErrorClass);
+    errorElement.classList.remove(validationSettings.errorClass);
     errorElement.textContent = "";
 };
 
@@ -98,7 +98,8 @@ const clearValidation = (formElement, validationSettings) => {
     inputElement.value = "";
     hideInputError(formElement, inputElement);
   });
-  buttonElement.classList.add(validationSettings.inactiveButtonClass);
+  toggleButtonState(inputList, buttonElement, validationSettings);
+  // buttonElement.classList.add(validationSettings.inactiveButtonClass);
   buttonElement.disabled = true;
 };
 
