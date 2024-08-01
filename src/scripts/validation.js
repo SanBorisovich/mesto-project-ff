@@ -16,7 +16,7 @@ const showInputError = (formElement, inputElement, errorMessage, validationSetti
 };
 
 //Функция, скрывающая элемент ошибки
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, validationSettings) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(validationSettings.inputErrorClass);
     errorElement.classList.remove(validationSettings.errorClass);
@@ -39,7 +39,7 @@ const checkInputValidity = (formElement, inputElement, validationSettings) => {
         validationSettings
       );
     } else {
-      hideInputError(formElement, inputElement);
+      hideInputError(formElement, inputElement, validationSettings);
     }
 };
 
@@ -96,11 +96,9 @@ const clearValidation = (formElement, validationSettings) => {
   );
   inputList.forEach((inputElement) => {
     inputElement.value = "";
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, validationSettings);
   });
   toggleButtonState(inputList, buttonElement, validationSettings);
-  // buttonElement.classList.add(validationSettings.inactiveButtonClass);
-  buttonElement.disabled = true;
 };
 
 export {validationSettings, enableValidation, clearValidation};

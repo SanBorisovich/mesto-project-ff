@@ -7,16 +7,15 @@ const cardTemplate = document.querySelector('#card-template').content;
 
 function createCard(element, userId, removeCard, likeCard, openPopup) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  
+  const cardImage = cardElement.querySelector('.card__image');
   cardElement.querySelector('.card__title').textContent = element.name;
-  cardElement.querySelector('.card__image').src = element.link;
-  cardElement.querySelector('.card__image').alt = element.name;
+  cardImage.src = element.link;
+  cardImage.alt = element.name;
   cardElement.querySelector('.card__like-count').textContent = element.likes.length;
   cardElement.dataset.id = element._id;
 
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
-  const image = cardElement.querySelector('.card__image');
 
   if (element.owner._id !== userId) {
     deleteButton.classList.add('card__delete-button-hidden');
@@ -34,7 +33,7 @@ function createCard(element, userId, removeCard, likeCard, openPopup) {
     removeCard(cardElement);
   });
 
-  image.addEventListener('click', () => {
+  cardImage.addEventListener('click', () => {
     openPopup(element);
   });
 
